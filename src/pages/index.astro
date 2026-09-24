@@ -1,0 +1,109 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Video from '../components/Video.astro';
+import Figure from '../components/Figure.astro';
+import Icon from '../components/Icon.astro';
+import { site, paper, resources, hero, fullVideo, method, experimentGroups, results } from '../data/project';
+import { assetUrl } from '../utils/asset';
+const displayTitle = paper.title || paper.projectName;
+const titleBreakIndex = paper.titleBreakBefore ? displayTitle.indexOf(paper.titleBreakBefore) : -1;
+const titleLines = titleBreakIndex > 0
+  ? [displayTitle.slice(0, titleBreakIndex).trim(), displayTitle.slice(titleBreakIndex).trim()]
+  : [displayTitle];
+const abstractPattern = paper.abstractHighlights.length
+  ? new RegExp(`(${paper.abstractHighlights.map(term => term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`, 'g')
+  : null;
+const pageTitle = paper.title || paper.projectName;
+---
+<Layout title={pageTitle} description={site.description} language={site.language}>
+  <main>
+    <section class="hero" aria-label={`${paper.projectName} hero video`}>
+      <Video media={hero} variant="hero" />
+    </section>
+
+    <header class="paper-header container" id="paper" tabindex="-1">
+      <h1 aria-label={paper.title || paper.projectName}>
+        <span class="paper-title-full">{titleLines.map((line, index) => <>{index > 0 && <br />}{line}</>)}</span>
+      </h1>
+      {!paper.title && <p class="paper-title pending">TODO — Full paper title</p>}
+      <div class="paper-awards" aria-label="Awards" hidden={!paper.awards.length}>
+        {paper.awards.map(award => <p>{award}</p>)}
+      </div>
+      {paper.authors.length ? (
+        <ul class="authors" aria-label="Authors">
+          {paper.authors.map(author => <>
+            <li>
+              {author.url ? <a href={author.url} target="_blank" rel="noopener">{author.name}</a> : author.name}
+              {author.contribution && <sup>{author.contribution}</sup>}
+              {paper.affiliations.length > 1 && author.affiliationIds.length > 0 && <sup>{author.affiliationIds.join(', ')}</sup>}
+            </li>
+            {author.breakAfter && <li class="author-row-break" aria-hidden="true"></li>}
+          </>)}
+        </ul>
+      ) : <p class="authors pending">TODO — Authors in paper order</p>}
+      <div class="publication-meta">
+        {paper.authorNotes.length > 0 && <p class="author-note">{paper.authorNotes.join(' ')}</p>}
+        {paper.acceptance && <p class="conference">{paper.acceptance}</p>}
+      </div>
+      {paper.affiliations.length > 0 && (
+        <ul class="affiliations" aria-label="Affiliations">
+          {paper.affiliations.map(affiliation => <li>{paper.affiliations.length > 1 && <sup>{affiliation.id}</sup>} {affiliation.name}</li>)}
+        </ul>
+      )}
+      <nav class="resources" aria-label="Paper resources">
+        {resources.map(resource => resource.href ? (
+          <a class="resource" href={assetUrl(resource.href)}><Icon name={resource.icon} />{resource.label}</a>
+        ) : (
+          <button class="resource" type="button" disabled aria-label={`${resource.label} — coming soon`} title={`${resource.label} — coming soon`}><Icon name={resource.icon} />{resource.label}<span class="resource-status">Soon</span></button>
+        ))}
+      </nav>
+    </header>
+
+    <div class="container sections">
+      {fullVideo.src && <section class="section full-video-section" id="video" aria-labelledby="video-heading">
+        <h2 id="video-heading">Full Video</h2>
+        <figure><Video media={fullVideo} variant="overview" />{fullVideo.caption && <figcaption>{fullVideo.caption}</figcaption>}</figure>
+      </section>}
+
+      {experimentGroups.some(group => group.title || group.description || group.videos.some(video => video.src)) && <section class="section experiments-section" id="experiments" aria-label="Experiment clips">
+        {experimentGroups.map((group, index) => <section class="experiment-group" aria-labelledby={`${group.id}-heading`}>
+          <h2 id={`${group.id}-heading`} class:list={{ pending: !group.title }}>{group.title || `Experiment group ${String(index + 1).padStart(2, '0')}`}</h2>
+          {group.description && <p class="experiment-description">{group.description}</p>}
+          <div class:list={['experiment-grid', { 'experiment-grid--single': group.videos.length === 1, 'experiment-grid--featured-first': group.featuredFirst }]}>
+            {group.videos.map(experiment => <figure><Video media={experiment} />{experiment.caption && <figcaption>{experiment.caption}</figcaption>}</figure>)}
+          </div>
+        </section>)}
+      </section>}
+
+      {results.src && <section class="section" id="results" aria-labelledby="results-heading">
+        <h2 id="results-heading">Key results</h2>
+        <Figure media={results} label="Key quantitative results" />
+      </section>}
+
+      <section class="section" id="abstract" aria-labelledby="abstract-heading">
+        <h2 id="abstract-heading">Abstract</h2>
+        <div class="abstract-copy">
+          {paper.abstract.length ? paper.abstract.map(paragraph => <p>{(abstractPattern ? paragraph.split(abstractPattern) : [paragraph]).map(part => paper.abstractHighlights.includes(part) ? <strong><em>{part}</em></strong> : part)}</p>) : (
+            <p class="text-placeholder"><span class="placeholder-tag">Content forthcoming</span>TODO — Add the paper abstract in <code>src/data/project.ts</code>.</p>
+          )}
+        </div>
+        <div class="abstract-figure">
+          <Figure media={method} label="Framework overview" />
+        </div>
+      </section>
+
+      <section class="section text-section citation" id="citation" aria-labelledby="citation-heading">
+        <div class="section-heading">
+          <h2 id="citation-heading">Citation</h2>
+          {paper.bibtex && <button class="copy-button" type="button" data-copy-bibtex hidden><Icon name="copy" />Copy</button>}
+        </div>
+        {paper.bibtex ? <pre><code id="bibtex">{paper.bibtex}</code></pre> : <p class="text-placeholder">TODO — Add the confirmed BibTeX citation.</p>}
+        <p class="copy-status" role="status" data-copy-status></p>
+      </section>
+    </div>
+  </main>
+  <footer class="footer container">
+    <span>{paper.projectName}{paper.acceptance && <><span class="footer-separator" aria-hidden="true">/</span>{paper.acceptance}</>}</span>
+    <a href="#paper">Back to top ↑</a>
+  </footer>
+</Layout>
