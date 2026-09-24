@@ -58,11 +58,12 @@ export const paper: {
     'While recent advances in perceptive locomotion have enabled humanoid robots to traverse structured terrains, agile parkour in highly discontinuous environments remains an open challenge. In particular, crossing sparse footholds and narrow support regions requires precise foothold selection, effective use of visual observations, and consistent alternating foot placement during fast transitions. In this paper, we present a perceptive humanoid parkour framework that enables stable traversal across terrains with limited foothold availability using only onboard depth observations. The framework features a saliency-guided temporal perception module that combines a saliency prior with gated memory. It retains informative depth features across frames, enabling reliable foot placement from partial observations. By introducing an alternation loss, our symmetry regularization encourages alternating gait patterns and improves traversal robustness. Extensive experiments show that our method significantly improves success rate and foothold accuracy on challenging terrains in both simulation and the real world.',
   ],
   abstractHighlights: [], // 可选：写入摘要中需要加粗斜体的精确词组
-  bibtex: `@article{lee2026echo,
-  title={Echo in the Steps: Learning Perceptive Humanoid Parkour with Gated Memory},
-  author={Lee, Ming-Ju and Wang, Zizhuo and Zhu, Shaoting and Lou, Haozhe and Zhao, Hang and Li, Yiming},
-  journal={},
-  year={2026}
+  bibtex: `@inproceedings{lee2026echo,
+  title     = {{Echo in the Steps}: Learning Perceptive Humanoid Parkour with Gated Memory},
+  author    = {Lee, Ming-Ju and Wang, Zizhuo and Zhu, Shaoting and Lou, Haozhe and Zhao, Hang and Li, Yiming},
+  booktitle = {Proceedings of the 10th Conference on Robot Learning},
+  year      = {2026},
+  url       = {https://echo-in-the-steps.github.io/}
 }`,
 };
 
