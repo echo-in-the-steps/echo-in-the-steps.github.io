@@ -58,18 +58,20 @@ export const paper: {
     'While recent advances in perceptive locomotion have enabled humanoid robots to traverse structured terrains, agile parkour in highly discontinuous environments remains an open challenge. In particular, crossing sparse footholds and narrow support regions requires precise foothold selection, effective use of visual observations, and consistent alternating foot placement during fast transitions. In this paper, we present a perceptive humanoid parkour framework that enables stable traversal across terrains with limited foothold availability using only onboard depth observations. The framework features a saliency-guided temporal perception module that combines a saliency prior with gated memory. It retains informative depth features across frames, enabling reliable foot placement from partial observations. By introducing an alternation loss, our symmetry regularization encourages alternating gait patterns and improves traversal robustness. Extensive experiments show that our method significantly improves success rate and foothold accuracy on challenging terrains in both simulation and the real world.',
   ],
   abstractHighlights: [], // 可选：写入摘要中需要加粗斜体的精确词组
-  bibtex: `@inproceedings{lee2026echo,
-  title     = {{Echo in the Steps}: Learning Perceptive Humanoid Parkour with Gated Memory},
-  author    = {Lee, Ming-Ju and Wang, Zizhuo and Zhu, Shaoting and Lou, Haozhe and Zhao, Hang and Li, Yiming},
-  booktitle = {Proceedings of the 10th Conference on Robot Learning},
-  year      = {2026},
-  url       = {https://echo-in-the-steps.github.io/}
+  bibtex: `@misc{lee2026echostepslearningperceptive,
+  title         = {Echo in the Steps: Learning Perceptive Humanoid Parkour with Gated Memory},
+  author        = {Ming-Ju Lee and Zizhuo Wang and Shaoting Zhu and Haozhe Lou and Hang Zhao and Yiming Li},
+  year          = {2026},
+  eprint        = {2609.28960},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.RO},
+  url           = {https://arxiv.org/abs/2609.28960}
 }`,
 };
 
 export const resources: { label: string; icon: 'paper' | 'arxiv' | 'code' | 'video'; href: string }[] = [
-  { label: 'Paper', icon: 'paper', href: '' }, // 例如 paper/paper.pdf 或完整 HTTPS 地址
-  { label: 'arXiv', icon: 'arxiv', href: '' },
+  { label: 'Paper', icon: 'paper', href: 'paper/2609.28960v1.pdf' },
+  { label: 'arXiv', icon: 'arxiv', href: 'https://arxiv.org/abs/2609.28960' },
   { label: 'Code', icon: 'code', href: '' },
 ];
 
