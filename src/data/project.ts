@@ -77,7 +77,7 @@ export const resources: { label: string; icon: 'paper' | 'arxiv' | 'code' | 'vid
 
 export const hero: VideoAsset = {
   src: 'videos/hero/echo-hero.mp4',
-  poster: 'images/posters/echo-hero.jpg',
+  poster: 'images/posters/echo-hero-landscape.jpg',
   label: 'Echo in the Steps hero video',
   caption: '',
 };
